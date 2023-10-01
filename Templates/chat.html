@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Box</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="title">Chatbox</div>
+    <textarea id="chat-box" readonly></textarea>
+    <div class="input-area">
+        <input type="text" id="message" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+    var socket = io.connect('http://localhost:5000');
+    var socket = io.connect('http://127.0.0.1:5000');
+
+    socket.on('connect', function() {
+        socket.send('A user has connected!');
+    });
+
+    socket.on('message', function(data) {
+        $('#chat-box').val($('#chat-box').val() + '\n' + data);
+        $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);  // Auto-scroll to bottom
+    });
+
+    function sendMessage() {
+        socket.send($('#message').val());
+        $('#message').val('');
+    }
+</script>
+
+</body>
+</html>
