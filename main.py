@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 from flask_socketio import SocketIO, send
 from flask_cors import CORS
 
@@ -18,7 +18,6 @@ def handle_message(message):
 
 @app.route('/send_message', methods=['POST'])
 def send_message():
-    # Your logic to handle the message goes here.
     return jsonify({"status": "success", "message": "Message received"})
 
 if __name__ == '__main__':

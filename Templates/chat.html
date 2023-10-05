@@ -23,8 +23,10 @@
     var socket = io.connect('http://localhost:5000');
     var socket = io.connect('http://127.0.0.1:5000');
 
+    var userName = prompt("Please enter your name to proceed with the chat");  // Prompt user for name on page load
+
     socket.on('connect', function() {
-        socket.send('A user has connected!');
+        socket.send(userName + ' has connected!');  // Use userName here
     });
 
     socket.on('message', function(data) {
@@ -33,7 +35,8 @@
     });
 
     function sendMessage() {
-        socket.send($('#message').val());
+        var messageToSend = userName + ": " + $('#message').val();
+        socket.send(messageToSend);
         $('#message').val('');
     }
 </script>
